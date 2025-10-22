@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public class Main {
+public class SmartCityRoutePlanner {
     public static void main(String[] args) {
-        Graph graph = new Graph();
-        LocationManager manager = new LocationManager(graph);
-        AVLTree tree = new AVLTree();
         Scanner sc = new Scanner(System.in);
+        Graph graph = new Graph();
+        RoadManager manager = new RoadManager(graph);
+        LocationTree tree = new LocationTree();
 
         while (true) {
             System.out.println("\n--- Smart City Route Planner ---");
@@ -14,9 +14,10 @@ public class Main {
             System.out.println("3. Add a road between locations");
             System.out.println("4. Remove a road");
             System.out.println("5. Display all connections");
-            System.out.println("6. Display all locations (AVL Tree)");
+            System.out.println("6. Display all locations (using a tree)");
             System.out.println("7. Exit");
             System.out.print("Enter your choice: ");
+
             int choice = sc.nextInt();
             sc.nextLine();
 
@@ -28,36 +29,35 @@ public class Main {
                     tree.insert(loc);
                     break;
                 case 2:
-                    System.out.print("Enter location name to remove: ");
-                    manager.removeLocation(sc.nextLine());
+                    System.out.print("Enter location to remove: ");
+                    String rem = sc.nextLine();
+                    manager.removeLocation(rem);
                     break;
                 case 3:
-                    System.out.print("Enter start location: ");
+                    System.out.print("Enter source: ");
                     String src = sc.nextLine();
-                    System.out.print("Enter destination location: ");
+                    System.out.print("Enter destination: ");
                     String dest = sc.nextLine();
                     manager.addRoad(src, dest);
                     break;
                 case 4:
-                    System.out.print("Enter start location: ");
+                    System.out.print("Enter source: ");
                     src = sc.nextLine();
-                    System.out.print("Enter destination location: ");
+                    System.out.print("Enter destination: ");
                     dest = sc.nextLine();
                     manager.removeRoad(src, dest);
                     break;
                 case 5:
-                    manager.showConnections();
+                    graph.displayConnections();
                     break;
                 case 6:
-                    System.out.println("All Locations (In-order from AVL Tree):");
-                    tree.inorder();
-                    System.out.println();
+                    tree.display();
                     break;
                 case 7:
                     System.out.println("Exiting program...");
-                    return;
+                    System.exit(0);
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Invalid choice! Try again.");
             }
         }
     }
